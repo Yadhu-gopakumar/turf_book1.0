@@ -1,0 +1,388 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <title>Turf Owner Dashboard | Sport Zone</title>
+  <style>
+    /* General styling for the dashboard */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background: #f4f4f4;
+    }
+
+    /* Bookings Container */
+    .bookings__container,
+    .turf__container,
+    .payment__container {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .bookings__header h2,
+    .turf__header h2,
+    .payment__header h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section__desc {
+      text-align: center;
+    }
+
+    /* Grid Styling for Booking Cards */
+    .bookings__grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1rem auto;
+      max-width: 1200px;
+    }
+
+    /* Booking Card Styling */
+    .booking__card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      width: 300px;
+      transition: box-shadow 0.3s ease;
+      flex: 1 1 300px;
+    }
+
+    .booking__card:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .booking__card__details h4 {
+      font-size: 1.25rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .booking__card__details p {
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Cancel Button Styling */
+    .cancel__btn {
+      background-color: #ff4b4b;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .cancel__btn:hover {
+      background-color: #ff1a1a;
+    }
+
+    /* Turf Details Styling */
+    .turf__details {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem auto;
+      max-width: 600px;
+      text-align: left;
+    }
+
+    .turf__details__content {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .turf__info {
+      flex: 1;
+    }
+
+    /* Edit Form Styling */
+    .edit__form {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: none; /* Initially hidden */
+      margin-top: 1rem;
+    }
+
+    .edit__form label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+      font-weight: bold;
+    }
+
+    .edit__form input,
+    .edit__form textarea {
+      width: 80%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+    }
+
+    /* Payment History Styling */
+    .payment__history {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .payment__card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin: 0;
+      width: 300px;
+      text-align: left;
+    }
+
+    /* Edit Button Styling */
+    .edit__btn {
+      background-color: #11ed69;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .edit__btn:hover {
+      background-color: #00ff0d;
+    }
+
+    .submit__btn {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .submit__btn:hover {
+      background-color: #45a049;
+    }
+    header{
+      background:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDDexoMlnE9p4CYpJ47z1JswFeO4-U1cGBhg&s');
+      /* background-color: #333; */
+    }
+   
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header" style="background-position:center; background-size:cover; background-repeat:no-repeat;">
+    <nav>
+      <div class="nav__bar">
+        <div class="logo">
+          <a href="#"><img src="https://playo.co/_next/image?url=https%3A%2F%2Fplayo-website.gumlet.io%2Fplayo-website-v2%2Flogos-icons%2Fnew-logo-playo.png%3Fq%3D50&w=1920&q=75"
+            alt="logo" /></a>
+        </div>
+        <div class="nav__menu__btn" id="menu-btn">
+          <i class="ri-menu-line"></i>
+        </div>
+      </div>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#turf-details">Turf Details</a></li>
+        <li><a href="#payments">Payment History</a></li>
+        <li><a href="#">To Get Listed</a></li>
+      </ul>
+      <a href=""><button class="btn nav__btn">Logout</button></a>
+    </nav>
+
+    <div class="section__container header__container" id="dashboard">
+      <h1>Your Dashboard</h1>
+    </div>
+  </header>
+
+  <!-- Bookings Section -->
+  <section class="section__container bookings__container" id="bookings">
+    <div class="bookings__header">
+      <h2>Current Bookings</h2>
+      <p class="section__desc">Manage your Current bookings .</p>
+    </div>
+
+    <!-- Booking Cards -->
+    <div class="bookings__grid">
+      <div class="booking__card">
+        <div class="booking__card__details">
+          <h4>User: John Doe</h4>
+          <p>Turf Name: Dream City</p>
+          <p>Time Slot: 10:00 AM - 12:00 PM</p>
+          <button class="btn cancel__btn">Cancel Booking</button>
+        </div>
+      </div>
+
+      <div class="booking__card">
+        <div class="booking__card__details">
+          <h4>User: Jane Smith</h4>
+          <p>Turf Name: Turf Arena</p>
+          <p>Time Slot: 2:00 PM - 4:00 PM</p>
+          <button class="btn cancel__btn">Cancel Booking</button>
+        </div>
+      </div>
+
+      <div class="booking__card">
+        <div class="booking__card__details">
+          <h4>User: Michael Brown</h4>
+          <p>Turf Name: Legend Sports</p>
+          <p>Time Slot: 5:00 PM - 7:00 PM</p>
+          <button class="btn cancel__btn">Cancel Booking</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Turf Details Section -->
+  <section class="section__container turf__container" id="turf-details">
+    <div class="turf__header">
+      <h2>Your Turf Details</h2>
+      <p class="section__desc">Review and update your turf details below.</p>
+    </div>
+    <div class="turf__details">
+      <div class="turf__details__content">
+        <div class="turf__info">
+          <h4>Turf Name: <span id="turfName">Dream City</span></h4>
+          <p>Location: <span id="turfLocation">Downtown Stadium</span></p>
+          <p>Description: <span id="turfDescription">A premier turf for all your sports needs, featuring top-notch facilities and easy access.</span></p>
+          <button class="btn edit__btn">Edit Details</button>
+          <div class="edit__form">
+            <label for="editTurfName">Turf Name:</label>
+            <input type="text" id="editTurfName" value="Dream City" />
+
+            <label for="editTurfLocation">Location:</label>
+            <input type="text" id="editTurfLocation" value="Downtown Stadium" />
+
+            <label for="editTurfDescription">Description:</label>
+            <textarea id="editTurfDescription">A premier turf for all your sports needs, featuring top-notch facilities and easy access.</textarea>
+
+            <label for="turfImage">Upload Image:</label>
+            <input type="file" id="turfImage" name="turfImage" accept="image/*" />
+
+            <button class="btn submit__btn" onclick="submitEdit()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment History Section -->
+  <section class="section__container payment__container" id="payments">
+    <div class="payment__header">
+      <h2>Payment History</h2>
+      <p class="section__desc">View your payment transactions below.</p>
+    </div>
+    <div class="payment__history">
+      <div class="payment__card">
+        <p>Date: 2023-10-01</p>
+        <p>Amount: $100</p>
+        <p>Status: Completed</p>
+      </div>
+      <div class="payment__card">
+        <p>Date: 2023-10-15</p>
+        <p>Amount: $150</p>
+        <p>Status: Completed</p>
+      </div>
+      <div class="payment__card">
+        <p>Date: 2023-10-20</p>
+        <p>Amount: $120</p>
+        <p>Status: Pending</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="section__container footer__container">
+      <div class="footer__col">
+        <div class="logo">
+          <a href="#home"><img src="{% static 'logo.png' %}" alt="logo" /></a>
+        </div>
+        <p class="section__description">
+          Sport Zone revolutionizes turf booking by offering a seamless, user-friendly platform.
+        </p>
+      </div>
+      <div class="footer__col">
+        <h4>QUICK LINKS</h4>
+        <ul class="footer__links">
+          <li><a href="#">Browse Destinations</a></li>
+          <li><a href="#">Special Offers & Packages</a></li>
+          <li><a href="#">Customer Reviews & Ratings</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>OUR SERVICES</h4>
+        <ul class="footer__links">
+          <li><a href="#">Flexible Booking Options</a></li>
+          <li><a href="#">To Get Listed</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>CONTACT US</h4>
+        <ul class="footer__links">
+          <li><a href="#">rayalpark@info.com</a></li>
+        </ul>
+        <div class="footer__socials">
+          <a href="#"><img src="{% static 'facebook.png' %}" alt="facebook" /></a>
+          <a href="#"><img src="{% static 'instagram.png' %}" alt="instagram" /></a>
+          <a href="#"><img src="{% static 'youtube.png' %}" alt="youtube" /></a>
+          <a href="#"><img src="{% static 'twitter.png' %}" alt="twitter" /></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="{% static 'main.js' %}"></script>
+  <script>
+    document.querySelector('.edit__btn').addEventListener('click', function() {
+      const editForm = document.querySelector('.edit__form');
+      if (editForm.style.display === 'none' || editForm.style.display === '') {
+        editForm.style.display = 'block';
+      } else {
+        editForm.style.display = 'none';
+      }
+    });
+
+    function submitEdit() {
+      // Gather the input values
+      const turfName = document.getElementById('editTurfName').value;
+      const turfLocation = document.getElementById('editTurfLocation').value;
+      const turfDescription = document.getElementById('editTurfDescription').value;
+      const turfImage = document.getElementById('turfImage').files[0]; // For image handling
+
+      // Update the displayed information
+      document.getElementById('turfName').textContent = turfName;
+      document.getElementById('turfLocation').textContent = turfLocation;
+      document.getElementById('turfDescription').textContent = turfDescription;
+
+      // Handle image upload (preview, save, etc. would require additional logic)
+
+      // Hide the edit form
+      document.querySelector('.edit__form').style.display = 'none';
+
+      // Add further logic for handling the image upload if necessary
+    }
+  </script>
+</body>
+
+</html>
