@@ -113,9 +113,13 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_TZ = True
+from django.utils import timezone
 
+utc_time = timezone.now()  # Gets the current time in UTC
+local_time = utc_time.astimezone(timezone.get_default_timezone()) 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

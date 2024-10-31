@@ -342,7 +342,7 @@
 
                 return;
             }
-            if (password.length <= 4) {
+            if (password.length < 4) {
                 errorMessage.textContent = "password minimum length is 4";
                 console.log("pass len");
 
